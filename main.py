@@ -111,6 +111,13 @@ from beecolpy import abc
 def sphere(x):
     return sum(i**2 for i in x)
 
+# def risky_function(x):
+#     return np.log(x[0]) + x[1]
+
+def risky_function(x):
+    if x[0] <= 0:
+        return float('nan')
+    return np.log(x[0]) + x[1]
 # Initialize ABC optimization
 # abc_obj = abc(sphere, [(-10, 10), (-10, 10)], log_agents=True)
 # abc_obj = abc(
@@ -124,12 +131,12 @@ def sphere(x):
 #     log_agents=True
 # )
 abc_obj = abc(
-    sphere,
+    risky_function,         # Objective function choose from [sphere, risky_function]
     [(-10, 10), (-10, 10)], # Search space for the objective function
-    colony_size=80,         # Colony size (number of agents)
-    scouts=0.61,            # Scouts (the loss of agents)
-    iterations=200,         # Number of iterations
-    seed=None,              # Seed for reproducibility
+    colony_size=50,         # Colony size (number of agents)
+    scouts=0.5,             # Scouts (the loss of agents)
+    iterations=50,          # Number of iterations
+    seed=42,                # Seed for reproducibility
     nan_protection=True,    # Enable NaN protection Avoid Crash with a traceback
     log_agents=True,        # Log agents' positions across iterations
     min_max='min'           # if max setting it just maximize the error function
